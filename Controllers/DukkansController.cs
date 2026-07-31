@@ -1,0 +1,67 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using ProductCatalog.Api.Data;
+using ProductCatalog.Api.Models;
+using ProductCatalog.Api.DTO.Requests;
+using ProductCatalog.Api.DTO.Responses;
+namespace ProductCatalog.Api.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class DukkansController : ControllerBase
+    {
+        private readonly ApplicationDbContext _context;
+
+        public DukkansController(ApplicationDbContext context) => _context = context;
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<DukkansResponse>>> GetDukkans()
+        {
+            var dukkans = await _context.Dukkans.ToListAsync();
+            var responses = dukkans.Select(d => new DukkansResponse
+            {
+                Id = d.Id,
+                Name = d.Name,
+                Description = d.Description
+            });
+            return Ok(responses);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<DukkansResponse>> GetDukkan(Guid id)
+        {
+            var dukkan = await _context.Dukkans.FindAsync(id);
+
+            if (dukkan == null)
+            {
+                return NotFound();
+            }
+
+            var response = new DukkansResponse
+            {
+                Id = dukkan.Id,
+                Name = dukkan.Name,
+                Description = dukkan.Description
+            };
+
+            return Ok(response);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<DukkansResponse>> PostDukkan(CreateDukkanRequest request)
+        {
+            var dukkan = new Dukkan
+            {
+                Name = request.Name,
+                Description = request.Description
+            };
+
+            _context.Dukkans.Add(dukkan);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetDukkan", new { id = dukkan.Id }, dukkan);
+        }
+    }
+
+
+}

@@ -1,0 +1,114 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using ProductCatalog.Api.Data;
+using ProductCatalog.Api.DTO.Requests;
+using ProductCatalog.Api.DTO.Responses;
+using ProductCatalog.Api.Models;
+
+namespace ProductCatalog.Api.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ProductsController : ControllerBase
+    {
+        private readonly ApplicationDbContext _context;
+
+        public ProductsController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ProductResponse>>> GetProducts()
+        {
+            var products = await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.dukkan)
+                .ToListAsync();
+
+            var responses = products.Select(p => new ProductResponse
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description,
+                Price = p.Price,
+                CategoryName = p.Category?.Name ?? "",
+                DukkanName = p.dukkan?.Name ?? ""
+            });
+
+            return Ok(responses);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ProductResponse>> GetProduct(Guid id)
+        {
+            var product = await _context.Products
+            /*
+            CategoryName ve DukkanName erişebilmek için .Include kullanıyourz. 
+            yani sınıflar arasında baglantı kuruyoruz
+            */
+                .Include(p => p.Category)
+                .Include(p => p.dukkan)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            var response = new ProductResponse
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                CategoryName = product.Category?.Name ?? "",
+                DukkanName = product.dukkan?.Name ?? ""
+            };
+
+            return Ok(response);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<ProductResponse>> PostProduct(CreateProductRequest request)
+        {
+            // Request -> Entity
+            var product = new Product
+            {
+                Name = request.Name,
+                Description = request.Description,
+                Price = request.Price,
+                DukkanId = request.DukkanId,
+                CategoryId = request.CategoryId
+            };
+            Console.WriteLine($"Product created with ID: {product.Id}");
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+
+            // İlişkili verileri yükle
+            await _context.Entry(product)
+                .Reference(p => p.Category)
+                .LoadAsync();
+
+            await _context.Entry(product)
+                .Reference(p => p.dukkan)
+                .LoadAsync();
+
+            // Entity -> Response
+            var response = new ProductResponse
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                CategoryName = product.Category?.Name ?? "",
+                DukkanName = product.dukkan?.Name ?? ""
+            };
+
+            return CreatedAtAction(
+                nameof(GetProduct),
+                new { id = product.Id },
+                response);
+        }
+    }
+}
