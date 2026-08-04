@@ -10,5 +10,9 @@ namespace ProductCatalog.Api.Models
 
         public ICollection<Product> Products { get; set; } = new List<Product>();// bu şu anlama geliyor ki bir dukkan birden fazla ürüne sahip olabilir.
 
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
+
     }
 }

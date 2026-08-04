@@ -43,6 +43,16 @@ var builder = WebApplication.CreateBuilder(args);
 // gibi sınıflar çalışmaz.
 builder.Services.AddControllers();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAdminPanel", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 
 
 // OpenAPI (Swagger) servislerini ekler.
@@ -85,7 +95,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 var app = builder.Build();
 
 
-
+app.UseCors("AllowAdminPanel");
 // =========================
 // MIDDLEWARE YAPILANDIRMASI
 // =========================

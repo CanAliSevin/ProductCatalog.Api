@@ -22,7 +22,9 @@ namespace ProductCatalog.Api.Controllers
             {
                 Id = d.Id,
                 Name = d.Name,
-                Description = d.Description
+                Description = d.Description,
+                CreatedAt = d.CreatedAt,
+                UpdatedAt = d.UpdatedAt
             });
             return Ok(responses);
         }
@@ -41,7 +43,9 @@ namespace ProductCatalog.Api.Controllers
             {
                 Id = dukkan.Id,
                 Name = dukkan.Name,
-                Description = dukkan.Description
+                Description = dukkan.Description,
+                CreatedAt = dukkan.CreatedAt,
+                UpdatedAt = dukkan.UpdatedAt
             };
 
             return Ok(response);

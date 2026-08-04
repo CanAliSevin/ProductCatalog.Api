@@ -120,3 +120,4 @@ C:\Users\sevin\ProductCatalog.Api\obj\Debug\net10.0\refint\ProductCatalog.Api.dl
 C:\Users\sevin\ProductCatalog.Api\obj\Debug\net10.0\ProductCatalog.Api.pdb
 C:\Users\sevin\ProductCatalog.Api\obj\Debug\net10.0\ProductCatalog.Api.genruntimeconfig.cache
 C:\Users\sevin\ProductCatalog.Api\obj\Debug\net10.0\ref\ProductCatalog.Api.dll
+C:\Users\sevin\ProductCatalog.Api\obj\Debug\net10.0\ProductCatalog.Api.sourcelink.json
