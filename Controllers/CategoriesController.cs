@@ -68,5 +68,43 @@ namespace ProductCatalog.Api.Controllers
             return CreatedAtAction("GetCategory", new { id = category.Id }, response);
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCategory(Guid id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutCategory(Guid id, CreateCategoriesRequest request)
+        {
+            var category = await _context.Categories.FindAsync(id);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            category.Name = request.Name;
+            await _context.SaveChangesAsync();
+
+            var response = new CategoryResponse
+            {
+                Name = category.Name
+            };
+
+            return Ok(response);
+        }
+
+
     }
 }

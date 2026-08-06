@@ -110,5 +110,37 @@ namespace ProductCatalog.Api.Controllers
                 new { id = product.Id },
                 response);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutProduct(Guid id, CreateProductRequest request)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            product.Name = request.Name;
+            product.Description = request.Description;
+            product.Price = request.Price;
+            product.DukkanId = request.DukkanId;
+            product.CategoryId = request.CategoryId;
+            product.UpdatedAt = DateTime.UtcNow;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(Guid id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
     }
 }

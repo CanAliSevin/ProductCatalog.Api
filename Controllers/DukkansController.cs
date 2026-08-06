@@ -65,7 +65,39 @@ namespace ProductCatalog.Api.Controllers
 
             return CreatedAtAction("GetDukkan", new { id = dukkan.Id }, dukkan);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutDukkan(Guid id, CreateDukkanRequest request)
+        {
+            var dukkan = await _context.Dukkans.FindAsync(id);
+            if (dukkan == null)
+            {
+                return NotFound();
+            }
+
+            dukkan.Name = request.Name;
+            dukkan.Description = request.Description;
+            dukkan.UpdatedAt = DateTime.UtcNow;
+
+            _context.Entry(dukkan).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteDukkan(Guid id)
+        {
+            var dukkan = await _context.Dukkans.FindAsync(id);
+            if (dukkan == null)
+            {
+                return NotFound();
+
+            }
+
+            _context.Dukkans.Remove(dukkan);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
     }
-
-
 }
