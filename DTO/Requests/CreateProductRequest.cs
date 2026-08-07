@@ -7,5 +7,7 @@ namespace ProductCatalog.Api.DTO.Requests
         public required decimal Price { get; set; }
         public required Guid DukkanId { get; set; }
         public required Guid CategoryId { get; set; }
+
+        public string? ImageUrl { get; set; }
     }
 }

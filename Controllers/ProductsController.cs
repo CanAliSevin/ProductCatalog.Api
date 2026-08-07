@@ -33,7 +33,9 @@ namespace ProductCatalog.Api.Controllers
                 Description = p.Description,
                 Price = p.Price,
                 CategoryName = p.Category?.Name ?? "",
-                DukkanName = p.dukkan?.Name ?? ""
+                DukkanName = p.dukkan?.Name ?? "",
+
+                ImageUrl = p.ImageUrl
             });
 
             return Ok(responses);
@@ -63,7 +65,8 @@ namespace ProductCatalog.Api.Controllers
                 Description = product.Description,
                 Price = product.Price,
                 CategoryName = product.Category?.Name ?? "",
-                DukkanName = product.dukkan?.Name ?? ""
+                DukkanName = product.dukkan?.Name ?? "",
+                ImageUrl = product.ImageUrl
             };
 
             return Ok(response);
@@ -102,7 +105,8 @@ namespace ProductCatalog.Api.Controllers
                 Description = product.Description,
                 Price = product.Price,
                 CategoryName = product.Category?.Name ?? "",
-                DukkanName = product.dukkan?.Name ?? ""
+                DukkanName = product.dukkan?.Name ?? "",
+                ImageUrl = product.ImageUrl
             };
 
             return CreatedAtAction(
@@ -124,7 +128,7 @@ namespace ProductCatalog.Api.Controllers
             product.Price = request.Price;
             product.DukkanId = request.DukkanId;
             product.CategoryId = request.CategoryId;
-            product.UpdatedAt = DateTime.UtcNow;
+            product.ImageUrl = request.ImageUrl;
             await _context.SaveChangesAsync();
             return NoContent();
         }

@@ -20,7 +20,7 @@ namespace ProductCatalog.Api.Models
 		public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 		public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-
+		public string? ImageUrl { get; set; }
 
 
 		public Guid DukkanId { get; set; }//bu, Product sınıfının Dukkan sınıfıyla olan ilişkisini temsil eder. Her ürünün bir dükkanla ilişkili olduğunu belirtir. DukkanId özelliği, ürünün hangi dükkana ait olduğunu belirten bir yabancı anahtar (foreign key) olarak kullanılır. Bu sayede, bir ürünün hangi dükkana ait olduğunu kolayca bulabiliriz.

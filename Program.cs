@@ -47,9 +47,9 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAdminPanel", policy =>
     {
-        policy.WithOrigins("http://localhost:3000")
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        policy.WithOrigins("http://localhost:3000", "http://localhost:3001")
+                      .AllowAnyHeader()
+                      .AllowAnyMethod();
     });
 });
 
