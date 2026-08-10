@@ -29,6 +29,7 @@ namespace ProductCatalog.Api.Controllers
             return Ok(responses);
         }
 
+
         [HttpGet("{id}")]
         public async Task<ActionResult<DukkansResponse>> GetDukkan(Guid id)
         {
@@ -50,7 +51,16 @@ namespace ProductCatalog.Api.Controllers
 
             return Ok(response);
         }
+        [HttpPost("bulk")]
+        public async Task<IActionResult> CreateBulk(
+                 [FromBody] List<Dukkan> dukkans)
+        {
+            _context.Dukkans.AddRange(dukkans);
 
+            await _context.SaveChangesAsync();
+
+            return Ok(dukkans);
+        }
         [HttpPost]
         public async Task<ActionResult<DukkansResponse>> PostDukkan(CreateDukkanRequest request)
         {

@@ -10,6 +10,8 @@ namespace ProductCatalog.Api.DTO.Responses
         public string? ImageUrl { get; set; }
         public string CategoryName { get; set; } = string.Empty;
 
+        public Guid CategoryId { get; set; }
+        public Guid DukkanId { get; set; }
         public string DukkanName { get; set; } = string.Empty;
     }
 }

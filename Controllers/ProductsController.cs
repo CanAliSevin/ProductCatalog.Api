@@ -32,9 +32,33 @@ namespace ProductCatalog.Api.Controllers
                 Name = p.Name,
                 Description = p.Description,
                 Price = p.Price,
+                CategoryId = p.CategoryId,
+                DukkanId = p.DukkanId,
                 CategoryName = p.Category?.Name ?? "",
                 DukkanName = p.dukkan?.Name ?? "",
+                ImageUrl = p.ImageUrl
+            });
 
+            return Ok(responses);
+        }
+        [HttpGet("admin")]
+        public async Task<ActionResult<IEnumerable<ProductResponse>>> GetProductsAdmin()
+        {
+            var products = await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.dukkan)
+                .ToListAsync();
+
+            var responses = products.Select(p => new ProductResponse
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description,
+                Price = p.Price,
+                CategoryId = p.CategoryId,
+                DukkanId = p.DukkanId,
+                CategoryName = p.Category?.Name ?? "",
+                DukkanName = p.dukkan?.Name ?? "",
                 ImageUrl = p.ImageUrl
             });
 
@@ -64,6 +88,8 @@ namespace ProductCatalog.Api.Controllers
                 Name = product.Name,
                 Description = product.Description,
                 Price = product.Price,
+                CategoryId = product.CategoryId,
+                DukkanId = product.DukkanId,
                 CategoryName = product.Category?.Name ?? "",
                 DukkanName = product.dukkan?.Name ?? "",
                 ImageUrl = product.ImageUrl
@@ -71,7 +97,16 @@ namespace ProductCatalog.Api.Controllers
 
             return Ok(response);
         }
+        [HttpPost("bulk")]
+        public async Task<IActionResult> CreateBulk(
+                   [FromBody] List<Product> products)
+        {
+            _context.Products.AddRange(products);
 
+            await _context.SaveChangesAsync();
+
+            return Ok(products);
+        }
         [HttpPost]
         public async Task<ActionResult<ProductResponse>> PostProduct(CreateProductRequest request)
         {
@@ -82,7 +117,8 @@ namespace ProductCatalog.Api.Controllers
                 Description = request.Description,
                 Price = request.Price,
                 DukkanId = request.DukkanId,
-                CategoryId = request.CategoryId
+                CategoryId = request.CategoryId,
+                ImageUrl = request.ImageUrl
             };
             Console.WriteLine($"Product created with ID: {product.Id}");
             _context.Products.Add(product);

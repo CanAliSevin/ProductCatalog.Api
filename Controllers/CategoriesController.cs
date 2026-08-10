@@ -47,6 +47,16 @@ namespace ProductCatalog.Api.Controllers
 
             return Ok(response);
         }
+        [HttpPost("bulk")]
+        public async Task<IActionResult> CreateBulk(
+            [FromBody] List<Category> categories)
+        {
+            _context.Categories.AddRange(categories);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(categories);
+        }
 
         [HttpPost]
         public async Task<ActionResult<CategoryResponse>> PostCategory(CreateCategoriesRequest request)
