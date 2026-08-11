@@ -38,7 +38,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Örneğin:
 // ProductsController
 // CategoriesController
-// DukkansController
+// StoresController
 //
 // gibi sınıflar çalışmaz.
 builder.Services.AddControllers();

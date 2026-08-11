@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -25,7 +25,7 @@ namespace ProductCatalog.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Dukkans",
+                name: "Stores",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -34,7 +34,7 @@ namespace ProductCatalog.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Dukkans", x => x.Id);
+                    table.PrimaryKey("PK_Stores", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -45,7 +45,7 @@ namespace ProductCatalog.Api.Migrations
                     Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Price = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
-                    DukkanId = table.Column<Guid>(type: "uuid", nullable: false),
+                    StoreId = table.Column<Guid>(type: "uuid", nullable: false),
                     CategoryId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
@@ -60,9 +60,9 @@ namespace ProductCatalog.Api.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Products_Dukkans_DukkanId",
-                        column: x => x.DukkanId,
-                        principalTable: "Dukkans",
+                        name: "FK_Products_Stores_StoreId",
+                        column: x => x.StoreId,
+                        principalTable: "Stores",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -73,9 +73,9 @@ namespace ProductCatalog.Api.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_DukkanId",
+                name: "IX_Products_StoreId",
                 table: "Products",
-                column: "DukkanId");
+                column: "StoreId");
         }
 
         /// <inheritdoc />
@@ -88,7 +88,7 @@ namespace ProductCatalog.Api.Migrations
                 name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Dukkans");
+                name: "Stores");
         }
     }
 }

@@ -1,6 +1,6 @@
 namespace ProductCatalog.Api.DTO.Responses
 {
-    public class DukkansResponse
+    public class StoresResponse
     {
         public Guid Id { get; set; } = Guid.NewGuid();
 

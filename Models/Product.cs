@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProductCatalog.Api.Models
@@ -23,8 +23,8 @@ namespace ProductCatalog.Api.Models
 		public string? ImageUrl { get; set; }
 
 
-		public Guid DukkanId { get; set; }//bu, Product sınıfının Dukkan sınıfıyla olan ilişkisini temsil eder. Her ürünün bir dükkanla ilişkili olduğunu belirtir. DukkanId özelliği, ürünün hangi dükkana ait olduğunu belirten bir yabancı anahtar (foreign key) olarak kullanılır. Bu sayede, bir ürünün hangi dükkana ait olduğunu kolayca bulabiliriz.
-		public Dukkan? dukkan { get; set; }//bu, Product sınıfının Dukkan sınıfıyla olan ilişkisini temsil eder. Her ürünün bir dükkanla ilişkili olduğunu belirtir. DukkanId özelliği, ürünün hangi dükkana ait olduğunu belirten bir yabancı anahtar (foreign key) olarak kullanılır. Bu sayede, bir ürünün hangi dükkana ait olduğunu kolayca bulabiliriz.
+		public Guid StoreId { get; set; }//bu, Product sınıfının Store sınıfıyla olan ilişkisini temsil eder. Her ürünün bir dükkanla ilişkili olduğunu belirtir. StoreId özelliği, ürünün hangi dükkana ait olduğunu belirten bir yabancı anahtar (foreign key) olarak kullanılır. Bu sayede, bir ürünün hangi dükkana ait olduğunu kolayca bulabiliriz.
+		public Store? store { get; set; }//bu, Product sınıfının Store sınıfıyla olan ilişkisini temsil eder. Her ürünün bir dükkanla ilişkili olduğunu belirtir. StoreId özelliği, ürünün hangi dükkana ait olduğunu belirten bir yabancı anahtar (foreign key) olarak kullanılır. Bu sayede, bir ürünün hangi dükkana ait olduğunu kolayca bulabiliriz.
 
 		public Guid CategoryId { get; set; }
 		public Category? Category { get; set; }//bu, Product sınıfının Category sınıfıyla olan ilişkisini temsil eder. Her ürünün bir kategoriyle ilişkili olduğunu belirtir. CategoryId özelliği, ürünün hangi kategoriye ait olduğunu belirten bir yabancı anahtar (foreign key) olarak kullanılır. Bu sayede, bir ürünün hangi kategoriye ait olduğunu kolayca bulabiliriz.

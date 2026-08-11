@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProductCatalog.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class AddCreatedAtToDukkan : Migration
+    public partial class AddCreatedAtToStore : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,7 +21,7 @@ namespace ProductCatalog.Api.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "Description",
-                table: "Dukkans",
+                table: "Stores",
                 type: "text",
                 nullable: true,
                 oldClrType: typeof(string),
@@ -29,14 +29,14 @@ namespace ProductCatalog.Api.Migrations
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "CreatedAt",
-                table: "Dukkans",
+                table: "Stores",
                 type: "timestamp with time zone",
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "UpdatedAt",
-                table: "Dukkans",
+                table: "Stores",
                 type: "timestamp with time zone",
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
@@ -47,11 +47,11 @@ namespace ProductCatalog.Api.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "CreatedAt",
-                table: "Dukkans");
+                table: "Stores");
 
             migrationBuilder.DropColumn(
                 name: "UpdatedAt",
-                table: "Dukkans");
+                table: "Stores");
 
             migrationBuilder.AlterColumn<string>(
                 name: "Description",
@@ -65,7 +65,7 @@ namespace ProductCatalog.Api.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "Description",
-                table: "Dukkans",
+                table: "Stores",
                 type: "text",
                 nullable: false,
                 defaultValue: "",

@@ -23,7 +23,7 @@ namespace ProductCatalog.Api.Controllers
         {
             var products = await _context.Products
                 .Include(p => p.Category)
-                .Include(p => p.dukkan)
+                .Include(p => p.store)
                 .ToListAsync();
 
             var responses = products.Select(p => new ProductResponse
@@ -33,9 +33,9 @@ namespace ProductCatalog.Api.Controllers
                 Description = p.Description,
                 Price = p.Price,
                 CategoryId = p.CategoryId,
-                DukkanId = p.DukkanId,
+                StoreId = p.StoreId,
                 CategoryName = p.Category?.Name ?? "",
-                DukkanName = p.dukkan?.Name ?? "",
+                StoreName = p.store?.Name ?? "",
                 ImageUrl = p.ImageUrl
             });
 
@@ -46,7 +46,7 @@ namespace ProductCatalog.Api.Controllers
         {
             var products = await _context.Products
                 .Include(p => p.Category)
-                .Include(p => p.dukkan)
+                .Include(p => p.store)
                 .ToListAsync();
 
             var responses = products.Select(p => new ProductResponse
@@ -56,9 +56,9 @@ namespace ProductCatalog.Api.Controllers
                 Description = p.Description,
                 Price = p.Price,
                 CategoryId = p.CategoryId,
-                DukkanId = p.DukkanId,
+                StoreId = p.StoreId,
                 CategoryName = p.Category?.Name ?? "",
-                DukkanName = p.dukkan?.Name ?? "",
+                StoreName = p.store?.Name ?? "",
                 ImageUrl = p.ImageUrl
             });
 
@@ -70,11 +70,11 @@ namespace ProductCatalog.Api.Controllers
         {
             var product = await _context.Products
             /*
-            CategoryName ve DukkanName erişebilmek için .Include kullanıyourz. 
+            CategoryName ve StoreName erişebilmek için .Include kullanıyourz. 
             yani sınıflar arasında baglantı kuruyoruz
             */
                 .Include(p => p.Category)
-                .Include(p => p.dukkan)
+                .Include(p => p.store)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
             if (product == null)
@@ -89,9 +89,9 @@ namespace ProductCatalog.Api.Controllers
                 Description = product.Description,
                 Price = product.Price,
                 CategoryId = product.CategoryId,
-                DukkanId = product.DukkanId,
+                StoreId = product.StoreId,
                 CategoryName = product.Category?.Name ?? "",
-                DukkanName = product.dukkan?.Name ?? "",
+                StoreName = product.store?.Name ?? "",
                 ImageUrl = product.ImageUrl
             };
 
@@ -116,7 +116,7 @@ namespace ProductCatalog.Api.Controllers
                 Name = request.Name,
                 Description = request.Description,
                 Price = request.Price,
-                DukkanId = request.DukkanId,
+                StoreId = request.StoreId,
                 CategoryId = request.CategoryId,
                 ImageUrl = request.ImageUrl
             };
@@ -130,7 +130,7 @@ namespace ProductCatalog.Api.Controllers
                 .LoadAsync();
 
             await _context.Entry(product)
-                .Reference(p => p.dukkan)
+                .Reference(p => p.store)
                 .LoadAsync();
 
             // Entity -> Response
@@ -141,7 +141,7 @@ namespace ProductCatalog.Api.Controllers
                 Description = product.Description,
                 Price = product.Price,
                 CategoryName = product.Category?.Name ?? "",
-                DukkanName = product.dukkan?.Name ?? "",
+                StoreName = product.store?.Name ?? "",
                 ImageUrl = product.ImageUrl
             };
 
@@ -162,7 +162,7 @@ namespace ProductCatalog.Api.Controllers
             product.Name = request.Name;
             product.Description = request.Description;
             product.Price = request.Price;
-            product.DukkanId = request.DukkanId;
+            product.StoreId = request.StoreId;
             product.CategoryId = request.CategoryId;
             product.ImageUrl = request.ImageUrl;
             await _context.SaveChangesAsync();

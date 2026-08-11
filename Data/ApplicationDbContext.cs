@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore;
 using ProductCatalog.Api.Models;
 
@@ -11,7 +11,7 @@ namespace ProductCatalog.Api.Data
 		}
 
 		public DbSet<Product> Products { get; set; }//bu, Product sınıfının veritabanında bir tablo olarak temsil edileceğini belirtir. Products özelliği, Product nesnelerinin veritabanında saklanmasını ve sorgulanmasını sağlar. Bu sayede, uygulama içinde ürünlerle ilgili işlemleri gerçekleştirebiliriz.
-		public DbSet<Dukkan> Dukkans { get; set; }
+		public DbSet<Store> Stores { get; set; }
 		public DbSet<Category> Categories { get; set; }
 
 
