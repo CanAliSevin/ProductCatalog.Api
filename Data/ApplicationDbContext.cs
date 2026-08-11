@@ -14,6 +14,10 @@ namespace ProductCatalog.Api.Data
 		public DbSet<Store> Stores { get; set; }
 		public DbSet<Category> Categories { get; set; }
 
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder.HasPostgresExtension("vector");
+		}
 
 	}
 
