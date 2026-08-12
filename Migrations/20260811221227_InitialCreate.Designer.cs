@@ -12,7 +12,7 @@ using ProductCatalog.Api.Data;
 namespace ProductCatalog.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260811143225_InitialCreate")]
+    [Migration("20260811221227_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
