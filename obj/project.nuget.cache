@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "DU/SkYzLNY4=",
+  "dgSpecHash": "v4fExk9EubU=",
   "success": true,
   "projectFilePath": "C:\\Users\\sevin\\ProductCatalog.Api\\ProductCatalog.Api.csproj",
   "expectedPackageFiles": [
@@ -27,6 +27,7 @@
     "C:\\Users\\sevin\\.nuget\\packages\\npgsql\\10.0.3\\npgsql.10.0.3.nupkg.sha512",
     "C:\\Users\\sevin\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\10.0.3\\npgsql.entityframeworkcore.postgresql.10.0.3.nupkg.sha512",
     "C:\\Users\\sevin\\.nuget\\packages\\pgvector\\0.3.2\\pgvector.0.3.2.nupkg.sha512",
+    "C:\\Users\\sevin\\.nuget\\packages\\pgvector.entityframeworkcore\\0.3.0\\pgvector.entityframeworkcore.0.3.0.nupkg.sha512",
     "C:\\Users\\sevin\\.nuget\\packages\\system.codedom\\6.0.0\\system.codedom.6.0.0.nupkg.sha512",
     "C:\\Users\\sevin\\.nuget\\packages\\system.composition\\9.0.0\\system.composition.9.0.0.nupkg.sha512",
     "C:\\Users\\sevin\\.nuget\\packages\\system.composition.attributedmodel\\9.0.0\\system.composition.attributedmodel.9.0.0.nupkg.sha512",

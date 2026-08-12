@@ -567,6 +567,22 @@
           "lib/net6.0/Pgvector.dll": {}
         }
       },
+      "Pgvector.EntityFrameworkCore/0.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "9.0.1",
+          "Pgvector": "0.3.2"
+        },
+        "compile": {
+          "lib/net8.0/Pgvector.EntityFrameworkCore.dll": {}
+        },
+        "runtime": {
+          "lib/net8.0/Pgvector.EntityFrameworkCore.dll": {}
+        },
+        "build": {
+          "build/net8.0/Pgvector.EntityFrameworkCore.targets": {}
+        }
+      },
       "System.CodeDom/6.0.0": {
         "type": "package",
         "compile": {
@@ -2080,6 +2096,22 @@
         "pgvector.nuspec"
       ]
     },
+    "Pgvector.EntityFrameworkCore/0.3.0": {
+      "sha512": "HVMcglKLOg979w67k8DOvKO+xJvfBHv/GcAgv/fI8alK8zp9oIYJUYP9BSV6n6+3GwkfynAJ77euwow4/c7HoA==",
+      "type": "package",
+      "path": "pgvector.entityframeworkcore/0.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "README.md",
+        "build/net8.0/Pgvector.EntityFrameworkCore.targets",
+        "icon.png",
+        "lib/net8.0/Pgvector.EntityFrameworkCore.dll",
+        "pgvector.entityframeworkcore.0.3.0.nupkg.sha512",
+        "pgvector.entityframeworkcore.nuspec"
+      ]
+    },
     "System.CodeDom/6.0.0": {
       "sha512": "CPc6tWO1LAer3IzfZufDBRL+UZQcj5uS207NHALQzP84Vp/z6wF0Aa0YZImOQY8iStY0A2zI/e3ihKNPfUm8XA==",
       "type": "package",
@@ -2273,7 +2305,8 @@
       "Microsoft.EntityFrameworkCore.Design >= 10.0.10",
       "Microsoft.EntityFrameworkCore.Tools >= 10.0.10",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 10.0.3",
-      "Pgvector >= 0.3.2"
+      "Pgvector >= 0.3.2",
+      "Pgvector.EntityFrameworkCore >= 0.3.0"
     ]
   },
   "packageFolders": {
@@ -2352,6 +2385,10 @@
           "Pgvector": {
             "target": "Package",
             "version": "[0.3.2, )"
+          },
+          "Pgvector.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[0.3.0, )"
           }
         },
         "imports": [

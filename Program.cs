@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProductCatalog.Api.Data;
-
+using Pgvector.EntityFrameworkCore;
+using ProductCatalog.Api.Services;
 /*
  * Program.cs
  * -------------------------
@@ -75,9 +76,16 @@ builder.Services.AddOpenApi();
 // ConnectionString ise appsettings.json dosyasından okunur.
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(
-        builder.Configuration.GetConnectionString("DefaultConnection")
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        o => o.UseVector()
     )
 );
+
+builder.Services.AddHttpClient<IEmbeddingService, OllamaEmbeddingService>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:11434");
+});
+builder.Services.AddScoped<ProductSearchService>();
 
 
 

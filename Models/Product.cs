@@ -1,10 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using Pgvector;
 namespace ProductCatalog.Api.Models
 {
 	public class Product
 	{
+		[Column(TypeName = "vector(768)")]//bu, Embedding özelliğinin veritabanında vector türünde ve 768 boyutlu olarak saklanacağını belirtir. Bu sayede, ürünlerin vektör temsilleri veritabanında saklanabilir ve sorgulanabilir.
+		public Vector? Embedding { get; set; }
 		[Key]
 		public Guid Id { get; set; } = Guid.NewGuid();//dünyada benzersiz ID
 
