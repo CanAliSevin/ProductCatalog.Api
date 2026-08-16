@@ -19,9 +19,9 @@ namespace ProductCatalog.Api.Controllers
 
 
         public ProductsController(
-     ApplicationDbContext context,
-     IEmbeddingService embeddingService,
-     ProductSearchService searchService)
+            ApplicationDbContext context,
+            IEmbeddingService embeddingService,
+            ProductSearchService searchService)
         {
             _context = context;
             _embeddingService = embeddingService;
