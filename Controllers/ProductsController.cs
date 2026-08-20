@@ -7,6 +7,9 @@ using ProductCatalog.Api.Models;
 using ProductCatalog.Api.Services;
 
 
+
+
+
 namespace ProductCatalog.Api.Controllers
 {
     [Route("api/[controller]")]
