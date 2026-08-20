@@ -42,6 +42,7 @@ var builder = WebApplication.CreateBuilder(args);
 // StoresController
 //
 // gibi sınıflar çalışmaz.
+builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
 builder.Services.AddCors(options =>
@@ -122,6 +123,8 @@ app.UseCors("AllowAdminPanel");
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 
