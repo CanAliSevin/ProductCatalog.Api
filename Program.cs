@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ProductCatalog.Api.Data;
 using Pgvector.EntityFrameworkCore;
 using ProductCatalog.Api.Services;
-
+using Npgsql;
 /*
  * Program.cs
  * -------------------------
@@ -31,12 +31,14 @@ builder.Services.AddCors(options =>
 // OpenAPI (Swagger) servislerini ekler.
 builder.Services.AddOpenApi();
 
-// Entity Framework Core & PostgreSQL (pgvector)
+// YENİ HALİ (Bunu Ekleyin)
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
+dataSourceBuilder.UseVector(); // Vektör desteğini bağlantı (Npgsql) seviyesinde açıyoruz
+var dataSource = dataSourceBuilder.Build();
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        o => o.UseVector()
-    )
+    options.UseNpgsql(dataSource, o => o.UseVector()) // EF Core seviyesinde açıyoruz
 );
 
 builder.Services.AddHttpClient<IEmbeddingService, OllamaEmbeddingService>(client =>
