@@ -31,12 +31,21 @@ builder.Services.AddCors(options =>
 // OpenAPI (Swagger) servislerini ekler.
 builder.Services.AddOpenApi();
 
-// YENİ HALİ (Bunu Ekleyin)
+// VERİTABANI VE VECTOR AYARLARI
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// Npgsql'in vektör verisini okuyabilmesi için zorunlu global eşleştirme:
+#pragma warning disable Npgsql0001
+NpgsqlConnection.GlobalTypeMapper.UseVector();
+#pragma warning restore Npgsql0001
+
 var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
-dataSourceBuilder.UseVector(); // Vektör desteğini bağlantı (Npgsql) seviyesinde açıyoruz
+dataSourceBuilder.UseVector();
 var dataSource = dataSourceBuilder.Build();
 
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(dataSource, o => o.UseVector())
+);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(dataSource, o => o.UseVector()) // EF Core seviyesinde açıyoruz
 );
