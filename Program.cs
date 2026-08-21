@@ -3,6 +3,7 @@ using ProductCatalog.Api.Data;
 using Pgvector.EntityFrameworkCore;
 using ProductCatalog.Api.Services;
 using Npgsql;
+
 /*
  * Program.cs
  * -------------------------
@@ -28,24 +29,17 @@ builder.Services.AddCors(options =>
     });
 });
 
-// OpenAPI (Swagger) servislerini ekler.
 builder.Services.AddOpenApi();
 
+// =========================
 // VERİTABANI VE VECTOR AYARLARI
+// =========================
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-// Npgsql'in vektör verisini okuyabilmesi için zorunlu global eşleştirme:
-#pragma warning disable Npgsql0001
-NpgsqlConnection.GlobalTypeMapper.UseVector();
-#pragma warning restore Npgsql0001
-
 var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
-dataSourceBuilder.UseVector();
+dataSourceBuilder.UseVector(); // Vektör desteğini Npgsql seviyesinde açıyoruz
 var dataSource = dataSourceBuilder.Build();
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(dataSource, o => o.UseVector())
-);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(dataSource, o => o.UseVector()) // EF Core seviyesinde açıyoruz
 );
@@ -61,11 +55,31 @@ builder.Services.AddScoped<ProductSearchService>();
 // =========================
 var app = builder.Build();
 
-// Otomatik Migration (Tabloları veritabanında oluşturur)
+// Otomatik Migration ve Type Reloading (Vektör Hatasının Kesin Çözümü)
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    context.Database.Migrate();
+
+    try
+    {
+        // 1. Vektör eklentisini garanti altına al
+        context.Database.ExecuteSqlRaw("CREATE EXTENSION IF NOT EXISTS vector;");
+
+        // 2. Tabloları oluştur
+        context.Database.Migrate();
+
+        // 3. EN ÖNEMLİ ADIM: Npgsql'in tip önbelleğini zorla temizle ve PostgreSQL'den yeniden çek!
+        var conn = (NpgsqlConnection)context.Database.GetDbConnection();
+        conn.Open();
+        conn.ReloadTypes(); // DataTypeName '-.-' hatasını tam olarak burası çözecek
+        conn.Close();
+
+        Console.WriteLine(">>> Veritabanı tipleri başarıyla yeniden yüklendi.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(">>> MIGRATION/RELOAD HATASI: " + ex.Message);
+    }
 }
 
 app.UseCors("AllowAdminPanel");
