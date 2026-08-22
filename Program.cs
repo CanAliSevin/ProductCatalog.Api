@@ -5,8 +5,6 @@ using ProductCatalog.Api.Services;
 using Npgsql;
 
 /*
- * Program.cs
- * -------------------------
  * Bu dosya ASP.NET Core uygulamasının giriş noktasıdır.
  */
 
@@ -55,23 +53,24 @@ builder.Services.AddScoped<ProductSearchService>();
 // =========================
 var app = builder.Build();
 
-// Otomatik Migration ve Type Reloading (Vektör Hatasının Kesin Çözümü)
+// ==========================================================
+// KESİN ÇÖZÜM: CORS'u pipeline'ın EN BAŞINA koyuyoruz!
+// ==========================================================
+app.UseCors("AllowAdminPanel");
+
+// Otomatik Migration ve Type Reloading
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
     try
     {
-        // 1. Vektör eklentisini garanti altına al
         context.Database.ExecuteSqlRaw("CREATE EXTENSION IF NOT EXISTS vector;");
-
-        // 2. Tabloları oluştur
         context.Database.Migrate();
 
-        // 3. EN ÖNEMLİ ADIM: Npgsql'in tip önbelleğini zorla temizle ve PostgreSQL'den yeniden çek!
         var conn = (NpgsqlConnection)context.Database.GetDbConnection();
         conn.Open();
-        conn.ReloadTypes(); // DataTypeName '-.-' hatasını tam olarak burası çözecek
+        conn.ReloadTypes();
         conn.Close();
 
         Console.WriteLine(">>> Veritabanı tipleri başarıyla yeniden yüklendi.");
@@ -82,9 +81,6 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-app.UseCors("AllowAdminPanel");
-
-// Swagger'ın hem Development hem Production'da açılmasını sağlar
 app.UseSwagger();
 app.UseSwaggerUI();
 
